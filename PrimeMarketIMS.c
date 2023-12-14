@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+//#include <sqlite3.h>
 #define MAX_LIMIT 90
 
 FILE *file;
@@ -98,12 +99,38 @@ void loadInventory(FILE *file){
 	     printf("ERROR FILE IS NULL\n");
 	     exit(1);
 	}
+
 }
 
-void SaveInventory(){
-	//Saves info to the same text file or SQL server
-}
+void SaveInventory(struct itemInfo inventory[]){
+	/*Saves info to the same text file or SQL server
+	struct itemInfo item = inventory[i];
+	sqlite3 *db;
+	int rc;
 
+	rc = sqlite3_open("waframeIMSSQL", &db);
+	if (rc){
+		printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+*/
+	
+}
+/*
+void createDatabase(struct itemInfo inventory[]){
+	struct itemInfo item = inventory[i];
+	sqlite3 *db;
+	int rc;
+
+	rc = sqlite3_open("waframeIMSSQL", &db);
+	if (rc){
+		printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
+		return rc;
+	}
+
+
+}
+*/
 int main()
 {
     struct itemInfo inventory[1000]; // Assuming a maximum of 1000 items
