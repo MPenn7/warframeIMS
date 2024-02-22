@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//#include <sqlite3.h>
+#include <sqlite3.h>
 #define MAX_LIMIT 90
 
 FILE *file;
@@ -133,6 +133,19 @@ void createDatabase(struct itemInfo inventory[]){
 */
 int main()
 {
+    sqlite3 *db;
+    char *errMSG;
+    int rc;
+   
+    rc = sqlite3_open("test.db". &db);
+    
+    if(rc){
+    fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+    return(0);
+    } else {
+	fprintf(stderr, "opened database successfully\n");
+    } 
+	
     struct itemInfo inventory[1000]; // Assuming a maximum of 1000 items
     int itemCount = 0;
 	while(1){
