@@ -14,10 +14,17 @@ struct itemInfo {
   int QIR;
   int price;
 };
-
+static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
+for(int i = 0; i<argc; i++){
+	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+}
+	printf("\n");
+	return 0;
+}
 void addItem(struct itemInfo inventory[], int *itemCount){
     struct itemInfo newItem;
-    
+    char newItemQueue[5]; 
+	
     int type;
     printf("Please enter the type of item: \n");
     printf("---------------\n");
@@ -68,9 +75,14 @@ void addItem(struct itemInfo inventory[], int *itemCount){
     scanf("%d", &newItem.price);
     printf("\n");
 
-    inventory[*itemCount] = newItem;
+    newItemQueue[1] = newItem.sku;
+    newItemQueue[2] = newItem.name;
+    newItemQueue[3] = newItem.QOH;
+    newItemQueue[4] = newItem.QIR;
+    newItemQueue[5] = newItem.price;
     (*itemCount)++;
 
+    sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
     }
 
 void displayInventory(struct itemInfo inventory[], int itemCount){
