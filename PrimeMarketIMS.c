@@ -5,7 +5,7 @@
 //#include <sqlite3.h>
 #define MAX_LIMIT 90
 
-FILE *file;
+//FILE *file;
 
 struct itemInfo {
   int sku;
@@ -21,6 +21,7 @@ for(int i = 0; i<argc; i++){
 	printf("\n");
 	return 0;
 }
+/*
 void addItem(struct itemInfo inventory[], int *itemCount){
     struct itemInfo newItem;
     char newItemQueue[5]; 
@@ -85,7 +86,8 @@ void addItem(struct itemInfo inventory[], int *itemCount){
 
    // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
     }
-
+*/
+/*
 void displayInventory(struct itemInfo inventory[], int itemCount){
     if(itemCount == 0)
         printf("Inventory is empty. \n");
@@ -104,7 +106,7 @@ void displayInventory(struct itemInfo inventory[], int itemCount){
 	printf("\n");	
     }
 }
-
+*/
 void loadInventory(FILE *file){
 	//Use either a basic read/write system or SQL api to save/load inventory info
 	file = fopen("InventorText", "a+");
