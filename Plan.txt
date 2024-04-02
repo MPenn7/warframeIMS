@@ -1,8 +1,6 @@
 Main menu
 1. Add item
-//maybe change to new data base and edit database
 2. Display inventory
-3. Load inventory
 4. Exit
 
 1.menu
@@ -13,7 +11,7 @@ Main menu
                 Put input into a fixed size string array
                 Put each value in the array into the insert format.
                 Run insert command
-                Return to menu giving options to add  items or exit
+                Return to menu giving options to add items or exit
           1.2 exit
      2. Edit item
                Prompt the user for each value of the item

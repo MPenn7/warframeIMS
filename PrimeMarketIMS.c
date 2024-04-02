@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <sqlite3.h>
+//#include <sqlite3.h>
 #define MAX_LIMIT 90
 
 FILE *file;
@@ -24,8 +24,9 @@ for(int i = 0; i<argc; i++){
 void addItem(struct itemInfo inventory[], int *itemCount){
     struct itemInfo newItem;
     char newItemQueue[5]; 
-	
+
     int type;
+
     printf("Please enter the type of item: \n");
     printf("---------------\n");
     printf("1. Warframe Set\n");
@@ -60,7 +61,7 @@ void addItem(struct itemInfo inventory[], int *itemCount){
     
     }
     printf("Enter the name of the item: ");
-    scanf(" %90[^\n]", newItem.name);
+    scanf(" %s[^\n]", newItem.name);
     printf("\n");
 
     printf("Enter the QOH of the item: ");
@@ -76,13 +77,13 @@ void addItem(struct itemInfo inventory[], int *itemCount){
     printf("\n");
 
     newItemQueue[1] = newItem.sku;
-    newItemQueue[2] = newItem.name;
+    //newItemQueue[2] = newItem.name;
     newItemQueue[3] = newItem.QOH;
     newItemQueue[4] = newItem.QIR;
     newItemQueue[5] = newItem.price;
     (*itemCount)++;
 
-    sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
+   // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
     }
 
 void displayInventory(struct itemInfo inventory[], int itemCount){
@@ -114,8 +115,8 @@ void loadInventory(FILE *file){
 
 }
 
-void SaveInventory(struct itemInfo inventory[]){
-	/*Saves info to the same text file or SQL server
+/*void SaveInventory(struct itemInfo inventory[]){
+	Saves info to the same text file or SQL server
 	struct itemInfo item = inventory[i];
 	sqlite3 *db;
 	int rc;
@@ -125,10 +126,11 @@ void SaveInventory(struct itemInfo inventory[]){
 		printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
 		return rc;
 	}
-*/
+
 	
 }
-/*
+*/
+
 void createDatabase(struct itemInfo inventory[]){
 	struct itemInfo item = inventory[i];
 	sqlite3 *db;
@@ -142,14 +144,14 @@ void createDatabase(struct itemInfo inventory[]){
 
 
 }
-*/
+
 int main()
 {
     sqlite3 *db;
     char *errMSG;
     int rc;
    
-    rc = sqlite3_open("test.db", &db);
+    rc = sqlite3_open("warframeIMSSQL", &db);
     
     if(rc){
     fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
@@ -178,7 +180,7 @@ int main()
                 displayInventory(inventory, itemCount);
                 break;
 		case 3:
-	    	printf("Needs to be implemented");
+		createDatabase();
             case 4:
                 exit(0);
             default:
