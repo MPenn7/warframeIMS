@@ -1,6 +1,7 @@
 Main menu
-1. Add item
+1. Edit
 2. Display inventory
+3. Load Inventory
 4. Exit
 
 1.menu

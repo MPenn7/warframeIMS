@@ -14,6 +14,7 @@ struct itemInfo {
   int QIR;
   int price;
 };
+/*
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 for(int i = 0; i<argc; i++){
 	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -21,7 +22,7 @@ for(int i = 0; i<argc; i++){
 	printf("\n");
 	return 0;
 }
-/*
+
 void addItem(struct itemInfo inventory[], int *itemCount){
     struct itemInfo newItem;
     char newItemQueue[5]; 
@@ -86,8 +87,7 @@ void addItem(struct itemInfo inventory[], int *itemCount){
 
    // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
     }
-*/
-/*
+
 void displayInventory(struct itemInfo inventory[], int itemCount){
     if(itemCount == 0)
         printf("Inventory is empty. \n");
@@ -106,7 +106,7 @@ void displayInventory(struct itemInfo inventory[], int itemCount){
 	printf("\n");	
     }
 }
-*/
+
 void loadInventory(FILE *file){
 	//Use either a basic read/write system or SQL api to save/load inventory info
 	file = fopen("InventorText", "a+");
@@ -117,7 +117,7 @@ void loadInventory(FILE *file){
 
 }
 
-/*void SaveInventory(struct itemInfo inventory[]){
+void SaveInventory(struct itemInfo inventory[]){
 	Saves info to the same text file or SQL server
 	struct itemInfo item = inventory[i];
 	sqlite3 *db;
@@ -131,7 +131,7 @@ void loadInventory(FILE *file){
 
 	
 }
-*/
+
 
 void createDatabase(struct itemInfo inventory[]){
 	struct itemInfo item = inventory[i];
@@ -146,9 +146,10 @@ void createDatabase(struct itemInfo inventory[]){
 
 
 }
-
+*/
 int main()
 {
+/*
     sqlite3 *db;
     char *errMSG;
     int rc;
@@ -161,12 +162,12 @@ int main()
     } else {
 	fprintf(stderr, "opened database successfully\n");
     } 
-	
+*/	
     struct itemInfo inventory[1000]; // Assuming a maximum of 1000 items
-    int itemCount = 0;
+    int itemCount = 0;//sets default item count to 0
 	while(1){
         printf("\nPrime Market Inventory Management System\n");
-        printf("1. Add Item\n");
+        printf("1. Edit\n");
         printf("2. Display Inventory\n");
 	printf("3. Load Inventory\n");
         printf("4. Exit\n");
@@ -176,13 +177,15 @@ int main()
 	printf("\n\n");
         switch (choice) {
             case 1:
-                addItem(inventory, &itemCount);
+		edit(itemCount);
                 break;
             case 2:
-                displayInventory(inventory, itemCount);
+               // displayInventory(inventory, itemCount);
+	       printf("Placeholder\n");
                 break;
 		case 3:
-		createDatabase();
+		//createDatabase();
+		printf("Placeholder\n");
             case 4:
                 exit(0);
             default:
@@ -193,3 +196,35 @@ int main()
     return 0;
 		
 }
+
+
+void edit(){
+	
+	int choice;
+	printf("\n\n");
+	printf("1. Add Item\n");
+	printf("2. Update Item\n");
+	printf("3. Back to main menu\n");
+	
+	scanf("%d", &choice);
+	switch(choice){
+	case 1:
+		//addItem();
+		printf("Placeholder\n");
+		//If this works I will do a hot tub stream, I will test it later
+		break;
+	case 2:
+		//updateItem();	
+		printf("Placeholder\n");
+		break;
+	case 3: 
+		main();
+		break;
+	default:
+		printf("ERROR: Selection out of bounds\n");
+	}
+}
+
+
+
+
