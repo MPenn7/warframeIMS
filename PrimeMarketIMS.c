@@ -4,23 +4,15 @@
 #include <stdbool.h>
 //#include <sqlite3.h>
 #define MAX_LIMIT 90
-//#include "itemInfo.h"
-#include "addItem.c"
+#include "addItem.c" //includes addItem to be able to call it
 
 void edit();
+//declares the edit function 
+
+//This program is SUPER gross. It will get cleared out when it gets replaced by files
 
 
-//FILE *file;
 /*
-struct itemInfo {
-  int sku;
-  char name[MAX_LIMIT];
-  int QOH;
-  int QIR;
-  int price;
-};
-
-
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 for(int i = 0; i<argc; i++){
 	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -107,16 +99,20 @@ int main()
     } 
 */	
     int itemCount = 0;//sets default item count to 0
-	while(1){
+	while(1){ //makes the menu the default unless exit is chosen
         printf("\nPrime Market Inventory Management System\n");
         printf("1. Edit\n");
         printf("2. Display Inventory\n");
 	printf("3. Load Inventory\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
+	//main  menu
+	
         int choice;
         scanf("%d", &choice);
 	printf("\n\n");
+	//var for user choice, scanner, and spacing
+	
         switch (choice) {
             case 1:
 		edit();
@@ -133,7 +129,7 @@ int main()
             default:
                 printf("Invalid choice. Please try again.\n");
 
-	}
+	} //switch for the menu and calls the sub menu. Defaults by rejecting the input if its out of bounds. 
     }
     return 0;
 		
@@ -141,13 +137,15 @@ int main()
 
 
 void edit(int itemCount, struct itemInfo){
-	
+	//edit submenu takes values needed for addItem.c
+
 	int choice;
 	printf("\n\n");
 	printf("1. Add Item\n");
 	printf("2. Update Item\n");
 	printf("3. Back to main menu\n");
-	
+	//submenu
+
 	scanf("%d", &choice);
 	switch(choice){
 	case 1:
@@ -162,7 +160,7 @@ void edit(int itemCount, struct itemInfo){
 		break;
 	default:
 		printf("ERROR: Selection out of bounds\n");
-	}
+	}//switch calling the files for the submenu or sends you back to the main menu
 }
 
 

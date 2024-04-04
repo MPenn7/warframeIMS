@@ -15,11 +15,14 @@ int price;
 };
 
 int main();
+//declares main that is found in PrimeMarketIMS, or the main file. Used when going back to main menu
+
 
 int addItem(int itemCount){
-    	char newItemQueue[5]; 
-    	struct itemInfo newItem;    
-    	int type;
+    	char newItemQueue[5]; //this is the buffer that allows the user input to be put into the correct SQL query 
+    	struct itemInfo newItem; //This takes the vars from the struct and allows use in the function
+    	int type; //var used to take the input from the user
+
 
     	printf("\n\n");
 
@@ -35,7 +38,7 @@ int addItem(int itemCount){
     	scanf("%d", &type);
  
     	printf("\n\n");
-    
+	//menu and scanner
 
     	switch(type){
         	case 1:
@@ -59,37 +62,37 @@ int addItem(int itemCount){
 	default:
 	    	   printf("ERROR: Selection outside of bounds");
 	    	break;
-    }
+    } // gives a prefex to differentate the different types of items as well as sets default incase the wrong input is entered. Also sets itemCount up.
 
     	printf("Enter the name of the item: ");
     	scanf(" %90[^\n]", newItem.name);
     	printf("\n");
-
+	//gets the name from the user and sets a character limit to the input
+	
     	printf("Enter the QOH of the item: ");
     	scanf("%d", &newItem.QOH);
     	printf("\n");
+	//gets the quantity on hand from the user
 
     	printf("Enter the number of relics this item is in: ");
     	scanf("%d", &newItem.QIR); 
     	printf("\n");
+	//gets the number of relics this item is in. Acts like a bool and needs to be changed but like idc rn
 
     	printf("Enter the price of this item: ");
     	scanf("%d", &newItem.price);
     	printf("\n");
+	//gets the price from the user
 
     	//newItemQueue[1] = newItem.sku;
     	//newItemQueue[2] = name;
     	//newItemQueue[3] = newItem.QOH;
     	//newItemQueue[4] = newItem.QIR;
     	//newItemQueue[5] = newItem.price;
-	//(itemCount)++;
+	//Sets the buffer queue to the values the user put in. 
 
 
    // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
 return 0; 
     }
-
-
-
-
 
