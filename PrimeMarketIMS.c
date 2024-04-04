@@ -4,9 +4,14 @@
 #include <stdbool.h>
 //#include <sqlite3.h>
 #define MAX_LIMIT 90
+//#include "itemInfo.h"
+#include "addItem.c"
+
+void edit();
+
 
 //FILE *file;
-
+/*
 struct itemInfo {
   int sku;
   char name[MAX_LIMIT];
@@ -14,7 +19,8 @@ struct itemInfo {
   int QIR;
   int price;
 };
-/*
+
+
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 for(int i = 0; i<argc; i++){
 	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -23,129 +29,66 @@ for(int i = 0; i<argc; i++){
 	return 0;
 }
 
-void addItem(struct itemInfo inventory[], int *itemCount){
-    struct itemInfo newItem;
-    char newItemQueue[5]; 
 
-    int type;
-
-    printf("Please enter the type of item: \n");
-    printf("---------------\n");
-    printf("1. Warframe Set\n");
-    printf("2. Primary Weapon\n");
-    printf("3. Secondary Weapon\n");
-    printf("4. Melee\n");
-    printf("5. Mods or etc\n");
-    
-    scanf("%d", &type);
-    
-    printf("\n\n");
-    
-    if( type<1 || type>=6)
-        printf("ERROR: Selection outside of bounds");
-      
-    switch(type){
-        case 1:
-            newItem.sku = 1000 + *itemCount + 1;
-            break;
-        case 2:
-            newItem.sku = 2000 + *itemCount + 1;
-            break;
-        case 3:
-            newItem.sku = 3000 + *itemCount + 1;
-            break;
-        case 4:
-            newItem.sku = 4000 + *itemCount + 1;
-            break;
-        case 5:
-            newItem.sku = 5000 + *itemCount + 1;
-            break;
-    
-    }
-    printf("Enter the name of the item: ");
-    scanf(" %s[^\n]", newItem.name);
-    printf("\n");
-
-    printf("Enter the QOH of the item: ");
-    scanf("%d", &newItem.QOH);
-    printf("\n");
-
-    printf("Enter the number of relics this item is in: ");
-    scanf("%d", &newItem.QIR); 
-    printf("\n");
-
-    printf("Enter the price of this item: ");
-    scanf("%d", &newItem.price);
-    printf("\n");
-
-    newItemQueue[1] = newItem.sku;
-    //newItemQueue[2] = newItem.name;
-    newItemQueue[3] = newItem.QOH;
-    newItemQueue[4] = newItem.QIR;
-    newItemQueue[5] = newItem.price;
-    (*itemCount)++;
-
-   // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
-    }
 
 void displayInventory(struct itemInfo inventory[], int itemCount){
-    if(itemCount == 0)
-        printf("Inventory is empty. \n");
-        
-    printf("Inventory Items:\n");
-    printf("ID\tName\t\t        QOH     QIR\tPrice\n");
-    printf("\n");
-    for (int i = 0; i < itemCount; i++){
-        struct itemInfo item = inventory[i];
-        //printf("%-8d%-20s%d%-12d%-10d", item.sku, item.name, item.QOH, item.QIR, item.price);
-	printf("%d\t",item.sku);
-	printf("%-20s\t",item.name);
-	printf("%d\t",item.QOH);
-	printf("%d\t",item.QIR);
-	printf("%d\t",item.price);
-	printf("\n");	
-    }
-}
+   if(itemCount == 0)
+       printf("Inventory is empty. \n");
+       
+   printf("Inventory Items:\n");
+   printf("ID\tName\t\t        QOH     QIR\tPrice\n");
+   printf("\n");
+   for (int i = 0; i < itemCount; i++){
+       struct itemInfo item = inventory[i];
+       //printf("%-8d%-20s%d%-12d%-10d", item.sku, item.name, item.QOH, item.QIR, item.price);
+       printf("%d\t",item.sku);
+       printf("%-20s\t",item.name);
+       printf("%d\t",item.QOH);
+       printf("%d\t",item.QIR);
+       printf("%d\t",item.price);
+       printf("\n");	
+   }
+
 
 void loadInventory(FILE *file){
-	//Use either a basic read/write system or SQL api to save/load inventory info
-	file = fopen("InventorText", "a+");
-	if(file == NULL){
-	     printf("ERROR FILE IS NULL\n");
-	     exit(1);
-	}
+       //Use either a basic read/write system or SQL api to save/load inventory info
+       file = fopen("InventorText", "a+");
+       if(file == NULL){
+            printf("ERROR FILE IS NULL\n");
+            exit(1);
+       }
 
-}
+
 
 void SaveInventory(struct itemInfo inventory[]){
-	Saves info to the same text file or SQL server
-	struct itemInfo item = inventory[i];
-	sqlite3 *db;
-	int rc;
+       Saves info to the same text file or SQL server
+       struct itemInfo item = inventory[i];
+       sqlite3 *db;
+       int rc;
 
-	rc = sqlite3_open("waframeIMSSQL", &db);
-	if (rc){
-		printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
-		return rc;
-	}
+       rc = sqlite3_open("waframeIMSSQL", &db);
+       if (rc){
+       	printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
+       	return rc;
+       }
 
-	
-}
+       
+
 
 
 void createDatabase(struct itemInfo inventory[]){
-	struct itemInfo item = inventory[i];
-	sqlite3 *db;
-	int rc;
+       struct itemInfo item = inventory[i];
+       sqlite3 *db;
+       int rc;
 
-	rc = sqlite3_open("waframeIMSSQL", &db);
-	if (rc){
-		printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
-		return rc;
-	}
+       rc = sqlite3_open("waframeIMSSQL", &db);
+       if (rc){
+       	printf(stderr, "CANNOT OPEN DATABASE: %s\n", sqlite3_errmsg(db));
+       	return rc;
+       }
 
 
-}
+
 */
 int main()
 {
@@ -163,7 +106,6 @@ int main()
 	fprintf(stderr, "opened database successfully\n");
     } 
 */	
-    struct itemInfo inventory[1000]; // Assuming a maximum of 1000 items
     int itemCount = 0;//sets default item count to 0
 	while(1){
         printf("\nPrime Market Inventory Management System\n");
@@ -177,11 +119,11 @@ int main()
 	printf("\n\n");
         switch (choice) {
             case 1:
-		edit(itemCount);
+		edit();
                 break;
             case 2:
-               // displayInventory(inventory, itemCount);
-	       printf("Placeholder\n");
+		//display();
+	        printf("Placeholder\n");
                 break;
 		case 3:
 		//createDatabase();
@@ -198,7 +140,7 @@ int main()
 }
 
 
-void edit(){
+void edit(int itemCount, struct itemInfo){
 	
 	int choice;
 	printf("\n\n");
@@ -209,9 +151,7 @@ void edit(){
 	scanf("%d", &choice);
 	switch(choice){
 	case 1:
-		//addItem();
-		printf("Placeholder\n");
-		//If this works I will do a hot tub stream, I will test it later
+		addItem(itemCount);
 		break;
 	case 2:
 		//updateItem();	
@@ -224,6 +164,7 @@ void edit(){
 		printf("ERROR: Selection out of bounds\n");
 	}
 }
+
 
 
 
