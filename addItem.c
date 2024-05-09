@@ -23,7 +23,6 @@ int addItem(int itemCount){
     	struct itemInfo newItem; //This takes the vars from the struct and allows use in the function
     	int type; //var used to take the input from the user
 
-
     	printf("\n\n");
 
     	printf("Please enter the type of item: \n");
@@ -64,6 +63,8 @@ int addItem(int itemCount){
 	    	break;
     } // gives a prefex to differentate the different types of items as well as sets default incase the wrong input is entered. Also sets itemCount up.
 
+	
+
     	printf("Enter the name of the item: ");
     	scanf(" %90[^\n]", newItem.name);
     	printf("\n");
@@ -84,15 +85,16 @@ int addItem(int itemCount){
     	printf("\n");
 	//gets the price from the user
 
-    	//newItemQueue[1] = newItem.sku;
-    	//newItemQueue[2] = name;
-    	//newItemQueue[3] = newItem.QOH;
-    	//newItemQueue[4] = newItem.QIR;
-    	//newItemQueue[5] = newItem.price;
+	/*
+    	newItemQueue[1] = newItem.sku;
+    	newItemQueue[2] = newItem.name;
+    	newItemQueue[3] = newItem.QOH;
+    	newItemQueue[4] = newItem.QIR;
+    	newItemQueue[5] = newItem.price;
+	*/
 	//Sets the buffer queue to the values the user put in. 
 
 
-   // sql = INSERT INTO COMPANY (SKU,NAME,QOH,QIR,PRICE)" \ "VALUES (
 return 0; 
     }
 

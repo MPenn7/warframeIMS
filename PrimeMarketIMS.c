@@ -96,14 +96,15 @@ int main()
     return(0);
     } else {
 	fprintf(stderr, "opened database successfully\n");
-    } 
-*/	
+    }
+    */
+
     int itemCount = 0;//sets default item count to 0
 	while(1){ //makes the menu the default unless exit is chosen
         printf("\nPrime Market Inventory Management System\n");
         printf("1. Edit\n");
         printf("2. Display Inventory\n");
-	printf("3. Load Inventory\n");
+	printf("3. Edit Database\n");
         printf("4. Exit\n");
         printf("Enter your choice: ");
 	//main  menu
