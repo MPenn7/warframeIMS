@@ -1,41 +1,46 @@
 Main menu
 1. Edit
 2. Display inventory
-3. Load Inventory
+3. Edit Database
 4. Exit
 
 1.menu
-     1. Add new items
-          1.1 choose type of item
-                Generate sku for item
-                Prompt the user to enter each value for the item
-                Put input into a fixed size string array
-                Put each value in the array into the insert format.
-                Run insert command
-                Return to menu giving options to add items or exit
-          1.2 exit
-     2. Edit item
-               Prompt the user for each value of the item
-               Put input into a fixed size string array
-               Put each value in the array into update format
-               Run update command
-               Return to 1.menu
-     3. Back to main menu
+	1. Add new items
+			1.1 choose type of item
+                	Generate sku for item
+                	Prompt the user to enter each value for the item
+                	Put input into a fixed size string array
+                	Put each value in the array into the insert format.
+                	Run insert command
+                	Return to menu giving options to add items or exit
+		1.2 exit
+	2. Edit item
+		Prompt the user for each value of the item
+		Put input into a fixed size string array
+		Put each value in the array into update format
+		Run update command
+		Return to 1.menu
+	3. Back to main menu
 
 2.menu
-     1. Display by SKU(displays all items in order of the sku)
+	1. Display by SKU(displays all items in order of the sku)
                -run select sql command based on sku
-     2. Display based on type (displays items with matching type)
-          2.1 choose type
-               -prompt user for type of item
-               -run select sql command based on type selected, order by sku
-     3. Display based on price
-               -run select sql command based on price high to low
-     4. Display based on QOH
-               -run select sql command based on QOH high to low
-     5. Back
+	2. Display based on type (displays items with matching type)
+		2.1 choose type
+			-prompt user for type of item
+			-run select sql command based on type selected, order by sku
+	3. Display based on price
+		-run select sql command based on price high to low
+	4. Display based on QOH
+		-run select sql command based on QOH high to low
+	5. Back
 
-3.menu
-     -Prompt user to enter the name of the file in which the data is stored. 
-//need to find out if this is even possible or if I am going to have to figure it out myself.
+3.menu	
+	1. Import Database
+		-Multithreading to read from csv and create tables
+	2. Create table
+		-Creates table based on user input
+	3. Drop table
+		-Drops table based on user input
+	4. Back
 
