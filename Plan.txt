@@ -38,9 +38,5 @@ Main menu
 3.menu	
 	1. Import Database
 		-Multithreading to read from csv and create tables
-	2. Create table
-		-Creates table based on user input
-	3. Drop table
-		-Drops table based on user input
-	4. Back
+	
 
