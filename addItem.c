@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//#include <sqlite3.h>
+#include <sqlite3.h>
 #define MAX_LIMIT 90
-
 
 struct itemInfo{
 int sku;
@@ -14,14 +13,33 @@ int QIR;
 int price;
 };
 
+static int callb(void *NotUsed, int argc, char **argv, char **azColName){
+
+	for(int i = 0; i<argc; i++){
+	printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+	printf("\n");
+	return 0;
+}
+
 int main();
 //declares main that is found in PrimeMarketIMS, or the main file. Used when going back to main menu
 
+int insertInto();
+//declares insertInto that is found in sqlDriver. Used to give the driver the values for insert
 
 int addItem(int itemCount){
-    	char newItemQueue[5]; //this is the buffer that allows the user input to be put into the correct SQL query 
-    	struct itemInfo newItem; //This takes the vars from the struct and allows use in the function
+	char nameBuffer[1];
+	int newItemQueue[4];
+	struct itemInfo newItem;
     	int type; //var used to take the input from the user
+	
+	sqlite3 *db;
+	char *zErrMsg = 0;
+	int rc;
+	char *sql;
+
+	itemCount = 0;
 
     	printf("\n\n");
 
@@ -40,7 +58,7 @@ int addItem(int itemCount){
 	//menu and scanner
 
     	switch(type){
-        	case 1:
+        case 1:
             	   newItem.sku = 1000 + itemCount + 1;
             	break;
         case 2:
@@ -85,15 +103,59 @@ int addItem(int itemCount){
     	printf("\n");
 	//gets the price from the user
 
-	/*
+	
     	newItemQueue[1] = newItem.sku;
-    	newItemQueue[2] = newItem.name;
-    	newItemQueue[3] = newItem.QOH;
-    	newItemQueue[4] = newItem.QIR;
-    	newItemQueue[5] = newItem.price;
-	*/
+    	nameBuffer[1] = *newItem.name;
+    	newItemQueue[2] = newItem.QOH;
+    	newItemQueue[3] = newItem.QIR;
+    	newItemQueue[4] = newItem.price;
 	//Sets the buffer queue to the values the user put in. 
 
+	rc = sqlite3_open("warframeIMS.db", &db);
+
+	if(rc){
+		fprintf(stderr, "Can't open database %s\n", sqlite3_errmsg(db));
+		return 0;
+	} else 
+		fprintf(stderr, "Opened database successfully");
+
+	printf("%d\n", newItem.sku);
+	printf("%s\n", newItem.name);
+	printf("%d\n", newItem.QOH);
+	printf("%d\n", newItem.QIR);
+	printf("%d\n", newItem.price);
+
+	switch(type){
+	case 1:	
+		sql = "INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (" , newItem.sku , ", '" , newItem.name , "', " , newItem.QOH , ", " , newItem.QIR , ", " , newItem.price ,");";
+		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		if(rc != SQLITE_OK){
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		} else {
+			fprintf(stdout, "Records created succcessfully\n");
+		}
+		sqlite3_close(db);
+		break;
+	case 2:
+		//temp
+		break;
+	case 3:
+		//temp
+		break;
+	case 4:
+		//temp
+		break;
+	case 5:
+		//temp
+		break;
+	case 6:
+		main();
+		break;
+	default:
+		printf("ERROR: Selection outside of bounds");
+		break;
+	}
 
 return 0; 
     }

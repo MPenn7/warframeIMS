@@ -2,12 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-//#include <sqlite3.h>
+#include <sqlite3.h>
 #define MAX_LIMIT 90
 #include "addItem.c" //includes addItem to be able to call it
+#include "sqlDriver.c" //includes the SQLdriver which handles the init and access to the db
+
 
 void edit();
-//declares the edit function 
+//declares the edit function in the add item file
+
+int createTable();
+//declares the created table function in the sql driver file
+
+int sqlDriver();
+//declares the sqlDriver so that the database is connected to or created on launch
 
 //This program is SUPER gross. It will get cleared out when it gets replaced by files
 
@@ -32,6 +40,7 @@ void displayInventory(struct itemInfo inventory[], int itemCount){
    printf("\n");
    for (int i = 0; i < itemCount; i++){
        struct itemInfo item = inventory[i];
+#include "Definition.h"
        //printf("%-8d%-20s%d%-12d%-10d", item.sku, item.name, item.QOH, item.QIR, item.price);
        printf("%d\t",item.sku);
        printf("%-20s\t",item.name);
@@ -84,21 +93,9 @@ void createDatabase(struct itemInfo inventory[]){
 */
 int main()
 {
-/*
-    sqlite3 *db;
-    char *errMSG;
-    int rc;
-   
-    rc = sqlite3_open("warframeIMSSQL", &db);
+   sqlDriver();
+   createTable();
     
-    if(rc){
-    fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
-    return(0);
-    } else {
-	fprintf(stderr, "opened database successfully\n");
-    }
-    */
-
     int itemCount = 0;//sets default item count to 0
 	while(1){ //makes the menu the default unless exit is chosen
         printf("\nPrime Market Inventory Management System\n");
