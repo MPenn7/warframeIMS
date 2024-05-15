@@ -11,6 +11,8 @@ char name[MAX_LIMIT];
 int QOH;
 int QIR;
 int price;
+char nameBuffer[1];
+int newItemQueue[4];
 };
 
 static int callb(void *NotUsed, int argc, char **argv, char **azColName){
@@ -29,8 +31,6 @@ int insertInto();
 //declares insertInto that is found in sqlDriver. Used to give the driver the values for insert
 
 int addItem(int itemCount){
-	char nameBuffer[1];
-	int newItemQueue[4];
 	struct itemInfo newItem;
     	int type; //var used to take the input from the user
 	
@@ -104,11 +104,11 @@ int addItem(int itemCount){
 	//gets the price from the user
 
 	
-    	newItemQueue[1] = newItem.sku;
-    	nameBuffer[1] = *newItem.name;
-    	newItemQueue[2] = newItem.QOH;
-    	newItemQueue[3] = newItem.QIR;
-    	newItemQueue[4] = newItem.price;
+    	newItem.newItemQueue[1] = newItem.sku;
+    	newItem.nameBuffer[1] = *newItem.name;
+    	newItem.newItemQueue[2] = newItem.QOH;
+    	newItem.newItemQueue[3] = newItem.QIR;
+    	newItem.newItemQueue[4] = newItem.price;
 	//Sets the buffer queue to the values the user put in. 
 
 	rc = sqlite3_open("warframeIMS.db", &db);
@@ -127,7 +127,8 @@ int addItem(int itemCount){
 
 	switch(type){
 	case 1:	
-		sql = "INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (" , newItem.sku , ", '" , newItem.name , "', " , newItem.QOH , ", " , newItem.QIR , ", " , newItem.price ,");";
+		printf("INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (%d%s%d%d%d", newItem.sku, &newItem.name, newItem.QOH, newItem.QIR, newItem.price);
+		sql = "INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (", newItem.sku,", '", &newItem.name, "', ", newItem.QOH, ", ", newItem.QIR, ", ", newItem.price,");";
 		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
 		if(rc != SQLITE_OK){
 			fprintf(stderr, "SQL error: %s\n", zErrMsg);

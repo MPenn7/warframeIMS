@@ -40,7 +40,7 @@ int createTable(){
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS WarframeSet(" \
 	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		CHAR(50)	NOT NULL," \
+	      "NAME		TEXT	NOT NULL," \
 	      "QOH 		INT	NOT NULL," \
 	      "QIR		INT	NOT NULL," \
 	      "PRICE		INT	NOT NULL);";
@@ -49,7 +49,7 @@ int createTable(){
 	
 	vars.sql = "CREATE TABLE IF NOT EXISTS PrimaryWeapon(" \
 	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		CHAR(50)	NOT NULL," \
+	      "NAME		TEXT	NOT NULL," \
 	      "QOH 		INT	NOT NULL," \
 	      "QIR		INT	NOT NULL," \
 	      "PRICE		INT	NOT NULL);";
@@ -57,7 +57,7 @@ int createTable(){
        
 	vars.sql = "CREATE TABLE IF NOT EXISTS SecondaryWeapon(" \
 	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		CHAR(50)	NOT NULL," \
+	      "NAME		TEXT	NOT NULL," \
 	      "QOH 		INT	NOT NULL," \
 	      "QIR		INT	NOT NULL," \
 	      "PRICE		INT	NOT NULL);";
@@ -65,7 +65,7 @@ int createTable(){
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS Melee(" \
 	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		CHAR(50)	NOT NULL," \
+	      "NAME		TEXT	NOT NULL," \
 	      "QOH 		INT	NOT NULL," \
 	      "QIR		INT	NOT NULL," \
 	      "PRICE		INT	NOT NULL);";
@@ -74,7 +74,7 @@ int createTable(){
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS ETC(" \
 	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		CHAR(50)	NOT NULL," \
+	      "NAME		TEXT	NOT NULL," \
 	      "QOH 		INT	NOT NULL," \
 	      "QIR		INT	NOT NULL," \
 	      "PRICE		INT	NOT NULL);";
