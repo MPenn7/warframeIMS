@@ -39,46 +39,47 @@ int createTable(){
 	}
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS WarframeSet(" \
-	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		TEXT	NOT NULL," \
-	      "QOH 		INT	NOT NULL," \
-	      "QIR		INT	NOT NULL," \
-	      "PRICE		INT	NOT NULL);";
+	      "SKU INT PRIMARY KEY	," \
+	      "NAME		TEXT	," \
+	      "QOH 		INT	," \
+	      "QIR		INT	," \
+	      "PRICE		INT	);";
        vars.rc = sqlite3_exec(vars.db, vars.sql, callback, 0, &zErrMsg);
 
 	
 	vars.sql = "CREATE TABLE IF NOT EXISTS PrimaryWeapon(" \
-	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		TEXT	NOT NULL," \
-	      "QOH 		INT	NOT NULL," \
-	      "QIR		INT	NOT NULL," \
-	      "PRICE		INT	NOT NULL);";
+	      "SKU INT PRIMARY KEY	," \
+	      "NAME		TEXT	," \
+	      "QOH 		INT	," \
+	      "QIR		INT	," \
+	      "PRICE		INT	);";
        vars.rc = sqlite3_exec(vars.db, vars.sql, callback, 0, &zErrMsg);
        
 	vars.sql = "CREATE TABLE IF NOT EXISTS SecondaryWeapon(" \
-	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		TEXT	NOT NULL," \
-	      "QOH 		INT	NOT NULL," \
-	      "QIR		INT	NOT NULL," \
-	      "PRICE		INT	NOT NULL);";
+	      "SKU INT PRIMARY KEY	," \
+	      "NAME		TEXT	," \
+	      "QOH 		INT	," \
+	      "QIR		INT	," \
+	      "PRICE		INT	);";
        vars.rc = sqlite3_exec(vars.db, vars.sql, callback, 0, &zErrMsg);
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS Melee(" \
-	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		TEXT	NOT NULL," \
-	      "QOH 		INT	NOT NULL," \
-	      "QIR		INT	NOT NULL," \
-	      "PRICE		INT	NOT NULL);";
+	      "SKU INT PRIMARY KEY	," \
+	      "NAME		TEXT	," \
+	      "QOH 		INT	," \
+	      "QIR		INT	," \
+	      "PRICE		INT	);";
        vars.rc = sqlite3_exec(vars.db, vars.sql, callback, 0, &zErrMsg);
 
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS ETC(" \
-	      "SKU INT PRIMARY KEY	NOT NULL," \
-	      "NAME		TEXT	NOT NULL," \
-	      "QOH 		INT	NOT NULL," \
-	      "QIR		INT	NOT NULL," \
-	      "PRICE		INT	NOT NULL);";
+	      "SKU INT PRIMARY KEY	," \
+	      "NAME		TEXT	," \
+	      "QOH 		INT	," \
+	      "QIR		INT	," \
+	      "PRICE		INT	);";
        vars.rc = sqlite3_exec(vars.db, vars.sql, callback, 0, &zErrMsg);
+
 
        if(vars.rc != SQLITE_OK){
 	fprintf(stderr, "SQL error: %s\n", zErrMsg);

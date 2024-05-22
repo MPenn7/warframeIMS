@@ -11,8 +11,6 @@ char name[MAX_LIMIT];
 int QOH;
 int QIR;
 int price;
-char nameBuffer[1];
-int newItemQueue[4];
 };
 
 static int callb(void *NotUsed, int argc, char **argv, char **azColName){
@@ -27,19 +25,14 @@ static int callb(void *NotUsed, int argc, char **argv, char **azColName){
 int main();
 //declares main that is found in PrimeMarketIMS, or the main file. Used when going back to main menu
 
-int insertInto();
-//declares insertInto that is found in sqlDriver. Used to give the driver the values for insert
-
 int addItem(int itemCount){
 	struct itemInfo newItem;
-    	int type; //var used to take the input from the user
-	
+	int type; //var used to take the input from the user
+
+
 	sqlite3 *db;
 	char *zErrMsg = 0;
-	int rc;
-	char *sql;
-
-	itemCount = 0;
+	int rc;	
 
     	printf("\n\n");
 
@@ -57,16 +50,15 @@ int addItem(int itemCount){
     	printf("\n\n");
 	//menu and scanner
 
+	itemCount = 0;
+
     	switch(type){
-        case 1:
-            	   newItem.sku = 1000 + itemCount + 1;
-            	break;
+        case 1:		  
+	       	   newItem.sku = 1000 + itemCount + 1;
+            	   break;
         case 2:
             	   newItem.sku = 2000 + itemCount + 1;
-           	break;
-        case 3:
-            	   newItem.sku = 3000 + itemCount + 1;
-            	break;
+		  break; 
         case 4:
           	   newItem.sku = 4000 + itemCount + 1;
           	break;
@@ -80,8 +72,6 @@ int addItem(int itemCount){
 	    	   printf("ERROR: Selection outside of bounds");
 	    	break;
     } // gives a prefex to differentate the different types of items as well as sets default incase the wrong input is entered. Also sets itemCount up.
-
-	
 
     	printf("Enter the name of the item: ");
     	scanf(" %90[^\n]", newItem.name);
@@ -104,13 +94,6 @@ int addItem(int itemCount){
 	//gets the price from the user
 
 	
-    	newItem.newItemQueue[1] = newItem.sku;
-    	newItem.nameBuffer[1] = *newItem.name;
-    	newItem.newItemQueue[2] = newItem.QOH;
-    	newItem.newItemQueue[3] = newItem.QIR;
-    	newItem.newItemQueue[4] = newItem.price;
-	//Sets the buffer queue to the values the user put in. 
-
 	rc = sqlite3_open("warframeIMS.db", &db);
 
 	if(rc){
@@ -118,37 +101,129 @@ int addItem(int itemCount){
 		return 0;
 	} else 
 		fprintf(stderr, "Opened database successfully");
-
-	printf("%d\n", newItem.sku);
-	printf("%s\n", newItem.name);
-	printf("%d\n", newItem.QOH);
-	printf("%d\n", newItem.QIR);
-	printf("%d\n", newItem.price);
-
+	
+	sqlite3_stmt *stmt;
+	const char *sql;
+	const char *name = newItem.name;
+	const int sku = newItem.sku;
+	const int QOH = newItem.QOH;
+	const int QIR = newItem.QIR;
+       	const int price = newItem.price;	
 	switch(type){
 	case 1:	
-		printf("INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (%d%s%d%d%d", newItem.sku, &newItem.name, newItem.QOH, newItem.QIR, newItem.price);
-		sql = "INSERT INTO WarframeSet(SKU, NAME, QOH, QIR, PRICE) VALUES (", newItem.sku,", '", &newItem.name, "', ", newItem.QOH, ", ", newItem.QIR, ", ", newItem.price,");";
+		
+		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
+		rc = sqlite3_bind_int(stmt, 1, sku);
+		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, QOH);
+		rc = sqlite3_bind_int(stmt, 4, QIR);
+		rc = sqlite3_bind_int(stmt, 5, price);
+
+		rc = sqlite3_step(stmt);
 		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+
 		if(rc != SQLITE_OK){
-			fprintf(stderr, "SQL error: %s\n", zErrMsg);
-			sqlite3_free(zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
 		} else {
-			fprintf(stdout, "Records created succcessfully\n");
+		fprintf(stdout, "Records created successfully\n");
 		}
+		
+		sqlite3_finalize(stmt);
 		sqlite3_close(db);
 		break;
 	case 2:
-		//temp
+		
+		sql = "INSERT INTO PrimaryWeapon (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
+		rc = sqlite3_bind_int(stmt, 1, sku);
+		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, QOH);
+		rc = sqlite3_bind_int(stmt, 4, QIR);
+		rc = sqlite3_bind_int(stmt, 5, price);
+
+		rc = sqlite3_step(stmt);
+		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+
+		if(rc != SQLITE_OK){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		} else {
+		fprintf(stdout, "Records created successfully\n");
+		}
+		
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
 		break;
 	case 3:
-		//temp
+			
+		sql = "INSERT INTO SecondaryWeapon (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
+		rc = sqlite3_bind_int(stmt, 1, sku);
+		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, QOH);
+		rc = sqlite3_bind_int(stmt, 4, QIR);
+		rc = sqlite3_bind_int(stmt, 5, price);
+
+		rc = sqlite3_step(stmt);
+		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+
+		if(rc != SQLITE_OK){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		} else {
+		fprintf(stdout, "Records created successfully\n");
+		}
+		
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
 		break;
 	case 4:
-		//temp
+			
+		sql = "INSERT INTO Melee (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
+		rc = sqlite3_bind_int(stmt, 1, sku);
+		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, QOH);
+		rc = sqlite3_bind_int(stmt, 4, QIR);
+		rc = sqlite3_bind_int(stmt, 5, price);
+
+		rc = sqlite3_step(stmt);
+		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+
+		if(rc != SQLITE_OK){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		} else {
+		fprintf(stdout, "Records created successfully\n");
+		}
+		
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
 		break;
 	case 5:
-		//temp
+			
+		sql = "INSERT INTO ETC (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
+		rc = sqlite3_bind_int(stmt, 1, sku);
+		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, QOH);
+		rc = sqlite3_bind_int(stmt, 4, QIR);
+		rc = sqlite3_bind_int(stmt, 5, price);
+
+		rc = sqlite3_step(stmt);
+		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+
+		if(rc != SQLITE_OK){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		} else {
+		fprintf(stdout, "Records created successfully\n");
+		}
+		
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
 		break;
 	case 6:
 		main();
@@ -157,7 +232,7 @@ int addItem(int itemCount){
 		printf("ERROR: Selection outside of bounds");
 		break;
 	}
-
+	sql = "";
 return 0; 
     }
 
