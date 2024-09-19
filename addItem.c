@@ -49,8 +49,20 @@ int addItem(int itemCount){
  
     	printf("\n\n");
 	//menu and scanner
+	
+	const char *sqlQ;
+	const int* skuSum;
+	sqlite3_stmt *qstmt;
+	sqlQ = "SELECT SUM(SKU) FROM WarframeSet;";
+	rc = sqlite3_prepare_v2(db,sqlQ,-1,&qstmt,NULL);
+	const char *query = sqlite3_sql(qstmt);
+	rc = sqlite3_exec(db, query,callb, 0, &zErrMsg);
+	
 
-	itemCount = 0;
+	if(rc != SQLITE_OK){
+		fprintf(stderr, "SQL error:%s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
 
     	switch(type){
         case 1:		  
@@ -102,127 +114,111 @@ int addItem(int itemCount){
 	} else 
 		fprintf(stderr, "Opened database successfully");
 	
+
+
+
 	sqlite3_stmt *stmt;
 	const char *sql;
-	const char *name = newItem.name;
-	const int sku = newItem.sku;
-	const int QOH = newItem.QOH;
-	const int QIR = newItem.QIR;
-       	const int price = newItem.price;	
 	switch(type){
-	case 1:	
-		
+	case 1:
 		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
-		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
-		rc = sqlite3_bind_int(stmt, 1, sku);
-		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
-		rc = sqlite3_bind_int(stmt, 3, QOH);
-		rc = sqlite3_bind_int(stmt, 4, QIR);
-		rc = sqlite3_bind_int(stmt, 5, price);
-
-		rc = sqlite3_step(stmt);
-		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
+		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
+		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
+		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
+		rc = sqlite3_bind_int(stmt, 5, newItem.price);
+		rc = sqlite3_step(stmt);	
 
 		if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
 		} else {
 		fprintf(stdout, "Records created successfully\n");
 		}
-		
-		sqlite3_finalize(stmt);
+		rc = sqlite3_finalize(stmt);
+	
 		sqlite3_close(db);
+		
 		break;
 	case 2:
-		
 		sql = "INSERT INTO PrimaryWeapon (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
-		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
-		rc = sqlite3_bind_int(stmt, 1, sku);
-		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
-		rc = sqlite3_bind_int(stmt, 3, QOH);
-		rc = sqlite3_bind_int(stmt, 4, QIR);
-		rc = sqlite3_bind_int(stmt, 5, price);
-
-		rc = sqlite3_step(stmt);
-		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
+		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
+		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
+		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
+		rc = sqlite3_bind_int(stmt, 5, newItem.price);
+		rc = sqlite3_step(stmt);	
 
 		if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
 		} else {
 		fprintf(stdout, "Records created successfully\n");
 		}
-		
-		sqlite3_finalize(stmt);
+		rc = sqlite3_finalize(stmt);
+	
 		sqlite3_close(db);
-		break;
+			break;
 	case 3:
-			
-		sql = "INSERT INTO SecondaryWeapon (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
-		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
-		rc = sqlite3_bind_int(stmt, 1, sku);
-		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
-		rc = sqlite3_bind_int(stmt, 3, QOH);
-		rc = sqlite3_bind_int(stmt, 4, QIR);
-		rc = sqlite3_bind_int(stmt, 5, price);
-
-		rc = sqlite3_step(stmt);
-		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
+		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
+		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
+		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
+		rc = sqlite3_bind_int(stmt, 5, newItem.price);
+		rc = sqlite3_step(stmt);	
 
 		if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
 		} else {
 		fprintf(stdout, "Records created successfully\n");
 		}
-		
-		sqlite3_finalize(stmt);
+		rc = sqlite3_finalize(stmt);
+	
 		sqlite3_close(db);
 		break;
 	case 4:
-			
-		sql = "INSERT INTO Melee (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
-		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
-		rc = sqlite3_bind_int(stmt, 1, sku);
-		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
-		rc = sqlite3_bind_int(stmt, 3, QOH);
-		rc = sqlite3_bind_int(stmt, 4, QIR);
-		rc = sqlite3_bind_int(stmt, 5, price);
-
-		rc = sqlite3_step(stmt);
-		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
+		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
+		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
+		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
+		rc = sqlite3_bind_int(stmt, 5, newItem.price);
+		rc = sqlite3_step(stmt);	
 
 		if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
 		} else {
 		fprintf(stdout, "Records created successfully\n");
 		}
-		
-		sqlite3_finalize(stmt);
+		rc = sqlite3_finalize(stmt);
+	
 		sqlite3_close(db);
 		break;
 	case 5:
-			
-		sql = "INSERT INTO ETC (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
-		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );		
-		rc = sqlite3_bind_int(stmt, 1, sku);
-		rc = sqlite3_bind_text(stmt, 2, name, -1, SQLITE_TRANSIENT);
-		rc = sqlite3_bind_int(stmt, 3, QOH);
-		rc = sqlite3_bind_int(stmt, 4, QIR);
-		rc = sqlite3_bind_int(stmt, 5, price);
-
-		rc = sqlite3_step(stmt);
-		rc = sqlite3_exec(db, sql, callb, 0, &zErrMsg);
+		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
+		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
+		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
+		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
+		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
+		rc = sqlite3_bind_int(stmt, 5, newItem.price);
+		rc = sqlite3_step(stmt);	
 
 		if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
 		} else {
 		fprintf(stdout, "Records created successfully\n");
 		}
-		
-		sqlite3_finalize(stmt);
+		rc = sqlite3_finalize(stmt);
+	
 		sqlite3_close(db);
 		break;
 	case 6:
@@ -232,7 +228,7 @@ int addItem(int itemCount){
 		printf("ERROR: Selection outside of bounds");
 		break;
 	}
-	sql = "";
+
 return 0; 
     }
 
