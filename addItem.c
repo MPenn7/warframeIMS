@@ -23,12 +23,10 @@ static int callb(void *NotUsed, int argc, char **argv, char **azColName){
 }
 
 int main();
-//declares main that is found in PrimeMarketIMS, or the main file. Used when going back to main menu
 
 int addItem(int itemCount){
 	struct itemInfo newItem;
-	int type; //var used to take the input from the user
-
+	int type = 0;
 
 	sqlite3 *db;
 	char *zErrMsg = 0;
@@ -44,26 +42,11 @@ int addItem(int itemCount){
     	printf("4. Melee\n");
     	printf("5. Mods or etc\n");
     	printf("6. Return to main menu\n");
-    
+   	
     	scanf("%d", &type);
- 
-    	printf("\n\n");
-	//menu and scanner
+    	printf("\n\n");	
 	
-	const char *sqlQ;
-	const int* skuSum;
-	sqlite3_stmt *qstmt;
-	sqlQ = "SELECT SUM(SKU) FROM WarframeSet;";
-	rc = sqlite3_prepare_v2(db,sqlQ,-1,&qstmt,NULL);
-	const char *query = sqlite3_sql(qstmt);
-	rc = sqlite3_exec(db, query,callb, 0, &zErrMsg);
-	
-
-	if(rc != SQLITE_OK){
-		fprintf(stderr, "SQL error:%s\n", zErrMsg);
-		sqlite3_free(zErrMsg);
-	}
-
+	if(rc !=SQLITE_OK){
     	switch(type){
         case 1:		  
 	       	   newItem.sku = 1000 + itemCount + 1;
@@ -78,32 +61,29 @@ int addItem(int itemCount){
         	   newItem.sku = 5000 + itemCount + 1;
         	break;
 	case 6:
-	    	   main();
+	    	  main();
 	    	break;
 	default:
 	    	   printf("ERROR: Selection outside of bounds");
 	    	break;
-    } // gives a prefex to differentate the different types of items as well as sets default incase the wrong input is entered. Also sets itemCount up.
+	}
+	printf("%d\n", itemCount);
 
     	printf("Enter the name of the item: ");
     	scanf(" %90[^\n]", newItem.name);
     	printf("\n");
-	//gets the name from the user and sets a character limit to the input
 	
     	printf("Enter the QOH of the item: ");
     	scanf("%d", &newItem.QOH);
     	printf("\n");
-	//gets the quantity on hand from the user
 
     	printf("Enter the number of relics this item is in: ");
     	scanf("%d", &newItem.QIR); 
     	printf("\n");
-	//gets the number of relics this item is in. Acts like a bool and needs to be changed but like idc rn
 
     	printf("Enter the price of this item: ");
     	scanf("%d", &newItem.price);
     	printf("\n");
-	//gets the price from the user
 
 	
 	rc = sqlite3_open("warframeIMS.db", &db);
@@ -162,7 +142,7 @@ int addItem(int itemCount){
 		sqlite3_close(db);
 			break;
 	case 3:
-		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		sql = "INSERT INTO SecondaryWeapon (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
 		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
 		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
 		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
@@ -182,7 +162,7 @@ int addItem(int itemCount){
 		sqlite3_close(db);
 		break;
 	case 4:
-		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		sql = "INSERT INTO Melee (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
 		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
 		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
 		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
@@ -202,7 +182,7 @@ int addItem(int itemCount){
 		sqlite3_close(db);
 		break;
 	case 5:
-		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
+		sql = "INSERT INTO ETC (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
 		rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL );
 		rc = sqlite3_bind_int(stmt, 1, newItem.sku);
 		rc = sqlite3_bind_text(stmt, 2, newItem.name, -1, SQLITE_TRANSIENT);
@@ -228,7 +208,7 @@ int addItem(int itemCount){
 		printf("ERROR: Selection outside of bounds");
 		break;
 	}
+	}	
+return 0;
 
-return 0; 
     }
-
