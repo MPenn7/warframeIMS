@@ -16,38 +16,12 @@ void edit();
 
 //int sqlDriver();
 
-void initialize_file(){
-static int initialized = 0;
 
-	if(initialized == 0){
-	     int itemCount = 0;
-	     FILE* fptr;
-
-	     fptr = fopen("itemCount.txt", "a");
-	     if (fptr == NULL){
-		printf("\nThe file has not opened");
-	     } else{
-    		printf("\nThe file has been created");
-	     }
-		
-	    fscanf(fptr,"%d",&itemCount);
-	    if(itemCount>0){
-		   printf("%d", itemCount);
-	    }else{
-		   fprintf(fptr, "%d", itemCount);
-	    }
-	    fclose(fptr);
-	   initialized = 1; 
-	}else {
-		printf("Initalization Complete");
-	}
-}
 
 int main()
 {
 	sqlDriver();
 	createTable();
-	initialize_file();
 
 	while(TRUE){
         printf("\nPrime Market Inventory Management System\n");
@@ -57,7 +31,6 @@ int main()
         printf("4. Exit\n");
         printf("Enter your choice: ");
 
-	fscanf(fptr,"%d", itemCount);
 
         int choice;
         scanf("%d", &choice);
@@ -87,8 +60,9 @@ int main()
 }
 
 
-void edit(int itemCount, struct itemInfo){
-	
+void edit(struct itemInfo){
+
+	while(TRUE){
 	int choice = 0;
 	printf("\n\n");
 	printf("1. Add Item\n");
@@ -98,17 +72,18 @@ void edit(int itemCount, struct itemInfo){
 	scanf("%d", &choice);
 	switch(choice){
 	    case 1:
-		addItem(itemCount);
+		addItem();
 		break;
        	    case 2:
 		//updateItem();	
 		printf("Placeholder\n");
 		break;
 	    case 3:
-	        main();	
+		main();	
 		break;
 	default:
 		printf("ERROR: Selection out of bounds\n");
 		exit(0);
 	}
+    }
 }

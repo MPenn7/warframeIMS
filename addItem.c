@@ -24,13 +24,34 @@ static int callb(void *NotUsed, int argc, char **argv, char **azColName){
 
 int main();
 
-int addItem(int itemCount){
+int addItem(){
 	struct itemInfo newItem;
 	int type = 0;
+	int rowID;
 
 	sqlite3 *db;
 	char *zErrMsg = 0;
 	int rc;	
+
+	sqlite3_stmt *stmt;
+	const char *sql;
+
+	
+	rc = sqlite3_open("warframeIMS.db", &db);
+
+	if(rc){
+		fprintf(stderr, "Can't open database %s\n", sqlite3_errmsg(db));
+		return 0;
+	} else 
+		fprintf(stderr, "Opened database successfully");
+	
+	sql = "SELECT last_insert_rowid()";
+	rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+	rc = sqlite3_step(stmt);
+	rowID = sqlite3_column_int(stmt, 0);
+	sqlite3_finalize(stmt);
+	printf("%d",rowID);
+
 
     	printf("\n\n");
 
@@ -45,29 +66,28 @@ int addItem(int itemCount){
    	
     	scanf("%d", &type);
     	printf("\n\n");	
-	
-	if(rc !=SQLITE_OK){
+
     	switch(type){
         case 1:		  
-	       	   newItem.sku = 1000 + itemCount + 1;
-            	   break;
+		newItem.sku = 1000 + rowID;
+		rowID ++;
+		break;
         case 2:
-            	   newItem.sku = 2000 + itemCount + 1;
-		  break; 
+		newItem.sku = 2000 + rowID;
+		break; 
         case 4:
-          	   newItem.sku = 4000 + itemCount + 1;
+		newItem.sku = 4000;
           	break;
         case 5:
-        	   newItem.sku = 5000 + itemCount + 1;
+		newItem.sku = 5000;
         	break;
 	case 6:
-	    	  main();
+//        	main();
 	    	break;
 	default:
 	    	   printf("ERROR: Selection outside of bounds");
 	    	break;
 	}
-	printf("%d\n", itemCount);
 
     	printf("Enter the name of the item: ");
     	scanf(" %90[^\n]", newItem.name);
@@ -85,20 +105,8 @@ int addItem(int itemCount){
     	scanf("%d", &newItem.price);
     	printf("\n");
 
-	
-	rc = sqlite3_open("warframeIMS.db", &db);
-
-	if(rc){
-		fprintf(stderr, "Can't open database %s\n", sqlite3_errmsg(db));
-		return 0;
-	} else 
-		fprintf(stderr, "Opened database successfully");
-	
 
 
-
-	sqlite3_stmt *stmt;
-	const char *sql;
 	switch(type){
 	case 1:
 		sql = "INSERT INTO WarframeSet (SKU, NAME, QOH, QIR, PRICE) VALUES (?1, ?2, ?3, ?4, ?5)";
@@ -108,8 +116,7 @@ int addItem(int itemCount){
 		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
 		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
 		rc = sqlite3_bind_int(stmt, 5, newItem.price);
-		rc = sqlite3_step(stmt);	
-
+		rc = sqlite3_step(stmt);
 		if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
 		sqlite3_free(zErrMsg);
@@ -129,7 +136,7 @@ int addItem(int itemCount){
 		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
 		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
 		rc = sqlite3_bind_int(stmt, 5, newItem.price);
-		rc = sqlite3_step(stmt);	
+		rc = sqlite3_step(stmt);
 
 		if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
@@ -149,7 +156,7 @@ int addItem(int itemCount){
 		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
 		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
 		rc = sqlite3_bind_int(stmt, 5, newItem.price);
-		rc = sqlite3_step(stmt);	
+		rc = sqlite3_step(stmt);
 
 		if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
@@ -169,7 +176,7 @@ int addItem(int itemCount){
 		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
 		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
 		rc = sqlite3_bind_int(stmt, 5, newItem.price);
-		rc = sqlite3_step(stmt);	
+		rc = sqlite3_step(stmt);
 
 		if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
@@ -189,7 +196,7 @@ int addItem(int itemCount){
 		rc = sqlite3_bind_int(stmt, 3, newItem.QOH);
 		rc = sqlite3_bind_int(stmt, 4, newItem.QIR);
 		rc = sqlite3_bind_int(stmt, 5, newItem.price);
-		rc = sqlite3_step(stmt);	
+		rc = sqlite3_step(stmt);
 
 		if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
@@ -208,7 +215,6 @@ int addItem(int itemCount){
 		printf("ERROR: Selection outside of bounds");
 		break;
 	}
-	}	
 return 0;
 
     }

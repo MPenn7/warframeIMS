@@ -8,10 +8,10 @@ int rc;
 char *sql;
 };
 
-int main();
+//int main();
 //declares main that is found in PrimeMarketIMS, or the main file. Used when going back to main menu
 
-int addItem();
+//int addItem();
 //declares addItem that is found in addItem.c. Used to get values for insert
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName){
@@ -39,7 +39,7 @@ int createTable(){
 	}
 
 	vars.sql = "CREATE TABLE IF NOT EXISTS WarframeSet(" \
-	      "SKU INT PRIMARY KEY	," \
+	      "SKU INTEGER PRIMARY KEY AUTOINCREMENT	," \
 	      "NAME		TEXT	," \
 	      "QOH 		INT	," \
 	      "QIR		INT	," \
